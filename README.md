@@ -6,35 +6,35 @@ El objetivo es procesar tres archivos CSV relacionados con datos académicos (es
 
 El proyecto está diseñado para demostrar buenas prácticas de ingeniería de datos incluso en un entorno limitado como Databricks CE.
 
-🏗️ Arquitectura General
-Flujo del pipeline:
+# 🏗️  Arquitectura General
+    Flujo del pipeline:
+    
+    Landing → Ingesta incremental desde CSV
+    
+    Bronze → Estructuración y aplicación de esquema
+    
+    Silver → Limpieza, validación y transformación
+    
+    Gold → Joins analíticos entre las tres tablas
+    
+    Logs & Metadatos → Auditoría y trazabilidad
+    
+    Dashboard → Monitoreo del pipeline en Databricks
+    
+    Landing Layer — Ingesta Incremental
+    Carga los CSV originales.
+    
+    Añade dos columnas clave:
+    
+    id_ingestion (consecutivo)
+    
+    timestamp_ingestion
+    
+    Permite detectar nuevos registros sin reprocesar datos antiguos.
+    
+    Actúa como punto de entrada controlado y trazable.
 
-Landing → Ingesta incremental desde CSV
-
-Bronze → Estructuración y aplicación de esquema
-
-Silver → Limpieza, validación y transformación
-
-Gold → Joins analíticos entre las tres tablas
-
-Logs & Metadatos → Auditoría y trazabilidad
-
-Dashboard → Monitoreo del pipeline en Databricks
-
-Landing Layer — Ingesta Incremental
-Carga los CSV originales.
-
-Añade dos columnas clave:
-
-id_ingestion (consecutivo)
-
-timestamp_ingestion
-
-Permite detectar nuevos registros sin reprocesar datos antiguos.
-
-Actúa como punto de entrada controlado y trazable.
-
-🟫 Bronze Layer — Datos Estructurados
+# 🟫 Bronze Layer — Datos Estructurados
 Aplica un esquema definido para cada tabla.
 
 Convierte tipos de datos.
@@ -43,7 +43,7 @@ Mantiene los datos “raw estructurados”.
 
 Procesamiento incremental basado en id_ingestion.
 
-🥈 Silver Layer — Limpieza y Transformación
+# 🥈 Silver Layer — Limpieza y Transformación
 Limpieza de texto (trim).
 
 Normalización de valores (booleanos, categorías).
@@ -52,7 +52,7 @@ Validaciones de calidad (rango de edad, valores válidos).
 
 Procesamiento incremental para evitar reprocesar datos ya limpios.
 
-🥇 Gold Layer — Datos Curados y Analíticos
+# 🥇 Gold Layer — Datos Curados y Analíticos
 Unión de las tres tablas Silver:
 
 Students
@@ -63,9 +63,9 @@ Subjects
 
 Genera una tabla final analítica lista para dashboards y reporting.
 
-Incluye enriquecimiento y métricas básicas.
 
-📊 Logs y Metadatos
+
+# 📊 Logs y Metadatos
 Cada job del pipeline registra:
 
 Estado (SUCCESS / ERROR)
